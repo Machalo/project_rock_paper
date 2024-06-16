@@ -9,79 +9,89 @@ function getComputerChoice () {
     return cards[x];
 }
 
-function getHumanChoice() {
-    return prompt("Choose between rock, paper and scissors.");
-}
+humanSelection = "";
+humanScore = 0;
+computerScore = 0;
 
 
-function playGame() {
-    humanScore = 0;
-    computerScore = 0;
+const buttons = document.querySelectorAll("button");
 
-    function playRound(humanChoice, computerChoice) {
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        humanSelection = button.id;
+        playRound(humanSelection,getComputerChoice());
+    })
+})
 
-        if (humanChoice == "rock") {
-            if (computerChoice == "paper"){
-                computerScore ++;
-                return console.log("You loose, paper covers rock.");
-            }
-            else if (computerChoice == "scissors") {
-                humanScore ++;
-                return console.log("You won, rock crushes scissors.");
-            }
-            else {
-                return console.log("Draw.")
-            }
-        }
-    
-        else if (humanChoice == "paper") {
-            if (computerChoice == "scissors"){
-                computerScore ++;
-                return console.log("You loose, scissors cut paper.");
-            }
-            else if (computerChoice == "rock") {
-                humanScore ++;
-                return console.log("You won, paper covers rock.");
-            }
-            else {
-                return console.log("Draw.")
-            }
-        }
-    
-        else if (humanChoice == "scissors") {
-            if (computerChoice == "rock"){
-                computerScore ++;
-                return console.log("You loose, rock crushes scissors.");
-            }
-            else if (computerChoice == "paper") {
-                humanScore ++;
-                return console.log("You won, scissors cut paper.");
-            }
-            else {
-                return console.log("Draw.")
-            }
-        }
+const scores = document.querySelector("#scores");
+
+scores.setAttribute("style", "white-space: pre;")
+
+function writeScores(){
+    if (humanScore == 5) {
+        document.getElementById("scores").textContent = `Your score : ${humanScore} // Computer score : ${computerScore} \r\n YOU WIN!!`
+        humanScore = 0;
+        computerScore = 0;
     }
-
-    for (let i = 0; i < 5; i++){
-        humanSelection = getHumanChoice();
-        computerSelection = getComputerChoice();
-
-        humanSelection = humanSelection.toLowerCase();
-
-        playRound(humanSelection,computerSelection);
-    }
-
-    if (humanScore > computerScore) {
-        return console.log("You won the game",humanScore,"to",computerScore,"!")
-    }
-    else if (computerScore > humanScore){
-        return console.log("You loose the game",humanScore,"to",computerScore,"!")
+    else if (computerScore == 5) {
+        document.getElementById("scores").textContent = `Your score : ${humanScore} // Computer score : ${computerScore} \r\n YOU LOOSE!!`
+        humanScore = 0;
+        computerScore = 0;
     }
     else {
-        return console.log("Equality!",humanScore,"to",computerScore,".")
-    }
+        return document.getElementById("scores").textContent = `Your score : ${humanScore} // Computer score : ${computerScore}`
 
+    }
 }
 
-console.log(playGame());
+
+function playRound(humanChoice, computerChoice) {
+
+    if (humanChoice == "rock") {
+        if (computerChoice == "paper"){
+            computerScore ++;
+            writeScores();
+            return console.log("You loose, paper covers rock.");
+        }
+        else if (computerChoice == "scissors") {
+            humanScore ++;
+            writeScores();
+            return console.log("You won, rock crushes scissors.");
+        }
+        else {
+            return console.log("Draw.")
+        }
+    }
+
+    else if (humanChoice == "paper") {
+        if (computerChoice == "scissors"){
+            computerScore ++;
+            writeScores();
+            return console.log("You loose, scissors cut paper.");
+        }
+        else if (computerChoice == "rock") {
+            humanScore ++;
+            writeScores();
+            return console.log("You won, paper covers rock.");
+        }
+        else {
+            return console.log("Draw.")
+        }
+    }
+
+    else if (humanChoice == "scissors") {
+        if (computerChoice == "rock"){
+            computerScore ++;
+            writeScores();
+            return console.log("You loose, rock crushes scissors.");
+        }
+        else if (computerChoice == "paper") {
+            humanScore ++;
+            writeScores();
+            return console.log("You won, scissors cut paper.");
+        }
+        else {
+            return console.log("Draw.")
+        }
+    }
+}
